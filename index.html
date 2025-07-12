@@ -1,77 +1,285 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Sahoora!</title>
-    <style>
-        body {
-            background: linear-gradient(135deg, #6a0dad, #1e3c72);
-            color: black;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-            position: relative;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: rgba(255, 255, 255, 0.7);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-            position: relative;
-            z-index: 2;
-        }
-        .message {
-            font-size: 2em;
-            margin: 30px 0;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-            color: black;
-        }
-        .images {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-        }
-        .images img {
-            width: 48%;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-        .sparkles {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            background: url('https://i.gifer.com/7scP.gif');
-            opacity: 0.4;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Sahoora!</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #6a0dad, #1e3c72);
+      font-family: Arial, sans-serif;
+      text-align: center;
+      color: black;
+    }
+
+    /* 🔲 BLACK SCREEN OVERLAY */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      transition: opacity 1s ease;
+    }
+
+    /* 💡 SWITCH STYLES */
+    .switch {
+      width: 100px;
+      height: 50px;
+      background: #444;
+      border-radius: 25px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .switch::before {
+      content: "OFF";
+      color: white;
+      position: absolute;
+      left: 12px;
+      top: 13px;
+      font-weight: bold;
+    }
+
+    .switch.on {
+      background: #4caf50;
+    }
+
+    .switch.on::before {
+      content: "ON";
+      left: 35px;
+    }
+
+    .switch-circle {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      width: 40px;
+      height: 40px;
+      background: white;
+      border-radius: 50%;
+      transition: left 0.3s;
+    }
+
+    .switch.on .switch-circle {
+      left: 55px;
+    }
+
+    .hidden-content {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    .show-content {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Cake, Timer, and Content styling from earlier */
+    .cake {
+      margin: 60px auto 0;
+      width: 180px;
+      height: auto;
+      position: relative;
+    }
+
+    .cake-layer {
+      width: 100%;
+      height: 50px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    .layer1 { background: #fda4ba; }
+    .layer2 { background: #ff85a2; }
+    .layer3 { background: #ff6e97; }
+
+    .icing {
+      width: 100%;
+      height: 12px;
+      background: white;
+      border-radius: 0 0 12px 12px;
+      margin-top: -6px;
+    }
+
+    .candle {
+      width: 10px;
+      height: 40px;
+      background: #ffd700;
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    .flame {
+      width: 14px;
+      height: 14px;
+      background: orange;
+      border-radius: 50%;
+      position: absolute;
+      top: -72px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: flicker 0.3s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0% { opacity: 0.8; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.1); }
+    }
+
+    #timer {
+      background: #ffffff;
+      color: black;
+      font-size: 1.6em;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+      margin-top: 30px;
+      margin-bottom: 40px;
+      display: inline-block;
+    }
+
+    .message {
+      font-size: 1.5em;
+      margin: 30px 0;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+      color: black;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+      position: relative;
+      z-index: 2;
+    }
+
+    .images {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .images img {
+      width: 48%;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    .sparkles {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      background: url('https://i.gifer.com/7scP.gif');
+      opacity: 0.4;
+      z-index: 1;
+    }
+  </style>
 </head>
 <body>
-    <div class="sparkles"></div>
-    
-    <div class="container">
-        <div class="message">You're getting older, Sahoora! 🎉💜</div>
-        <div class="message">But that's okay! we will grow toghether [Inshallah ofc].We've shared so many amazing memories together! 💖,i've compiled my most fav pictures of us ❤️</div>
-        <div class="images">
-            <img src="https://i.postimg.cc/R0j9WzxS/b292b83b-ebc6-4465-a3f7-4bb206186106.jpg" alt="Memory 1">
-            <img src="https://i.postimg.cc/7Zfp0QVf/c5f48ad3-1f13-49e7-80ef-aca921c74f33.jpg" alt="Memory 2">
-            <img src="https://i.postimg.cc/3NhTZCwz/eb1ee178-5222-4dc1-b841-1203c94ae149.jpg" alt="Memory 3">
-            <img src="https://i.postimg.cc/hv0qZzzv/5bcb10aa-cf99-4676-ac87-22453f21c2da.jpg" alt="Memory 4">
-            <img src="https://i.postimg.cc/kMN9gZ1C/baf7a3f9-938e-48f5-989d-6bdca4dbe6fe.jpg" alt="Memory 5">
-            <img src="https://i.postimg.cc/jS7MqmK6/1crop.jpg" alt="Memory 6">
-            <img src="https://i.postimg.cc/L8LVFPBN/2.jpg" alt="Memory 7">
-            <img src="https://i.postimg.cc/mDYxhzSj/afc2f759e60e4e0f5b7ee3a4e4c086d4.jpg" alt="Childhood 1">
-        </div>
-        <div class="message">🎉💜 HAPPY 16TH BIRTHDAY TO YOU SAHOORCHII!!  🎂🎈 Wishing you an amazing day filled with love and happiness! 💖✨</div>
+
+  <!-- 🌌 Sparkles Background -->
+  <div class="sparkles"></div>
+
+  <!-- 🔲 Intro Switch Screen -->
+  <div class="overlay" id="introOverlay">
+    <div class="switch" id="powerSwitch">
+      <div class="switch-circle"></div>
     </div>
+  </div>
+
+  <!-- 🎂 Hidden Content (Revealed on switch) -->
+  <div id="mainContent" class="hidden-content">
+    <div class="cake">
+      <div class="flame"></div>
+      <div class="candle"></div>
+      <div class="cake-layer layer1"></div>
+      <div class="icing"></div>
+      <div class="cake-layer layer2"></div>
+      <div class="icing"></div>
+      <div class="cake-layer layer3"></div>
+      <div class="icing"></div>
+    </div>
+
+    <div id="timer"></div>
+
+    <div class="container">
+      <div class="message">You're getting older, Sahoora! 🎉💜</div>
+      <div class="message">
+        But that's okay! We will grow together [Inshallah ofc]. We've shared so many amazing memories together! 💖 I've compiled my most fav pictures of us ❤️
+      </div>
+      <div class="images">
+        <img src="https://i.postimg.cc/R0j9WzxS/b292b83b-ebc6-4465-a3f7-4bb206186106.jpg" alt="Memory 1">
+        <img src="https://i.postimg.cc/7Zfp0QVf/c5f48ad3-1f13-49e7-80ef-aca921c74f33.jpg" alt="Memory 2">
+        <img src="https://i.postimg.cc/3NhTZCwz/eb1ee178-5222-4dc1-b841-1203c94ae149.jpg" alt="Memory 3">
+        <img src="https://i.postimg.cc/hv0qZzzv/5bcb10aa-cf99-4676-ac87-22453f21c2da.jpg" alt="Memory 4">
+        <img src="https://i.postimg.cc/kMN9gZ1C/baf7a3f9-938e-48f5-989d-6bdca4dbe6fe.jpg" alt="Memory 5">
+        <img src="https://i.postimg.cc/jS7MqmK6/1crop.jpg" alt="Memory 6">
+        <img src="https://i.postimg.cc/L8LVFPBN/2.jpg" alt="Memory 7">
+        <img src="https://i.postimg.cc/mDYxhzSj/afc2f759e60e4e0f5b7ee3a4e4c086d4.jpg" alt="Childhood 1">
+      </div>
+      <div class="message">🎉💜 HAPPY 16TH BIRTHDAY TO YOU SAHOORCHII!! REMEMBER THAT I LOVE YOU AND I WILL ALWAYS HAVE YOUR BACK 💖✨</div>
+    </div>
+  </div>
+
+  <!-- ⏳ Countdown Script -->
+  <script>
+    function updateTimer() {
+      const startDate = new Date('October 21, 2023 00:00:00');
+      const now = new Date();
+      const diff = now - startDate;
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById('timer').innerHTML =
+        `⏳ It has been <strong>${days}</strong> days, <strong>${hours}</strong> hours, <strong>${minutes}</strong> minutes, <strong>${seconds}</strong> seconds since our first Hangout 💜`;
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+  </script>
+
+  <!-- 🔌 Switch Logic -->
+  <script>
+    const switchEl = document.getElementById('powerSwitch');
+    const overlay = document.getElementById('introOverlay');
+    const content = document.getElementById('mainContent');
+
+    switchEl.addEventListener('click', () => {
+      switchEl.classList.add('on');
+      setTimeout(() => {
+        overlay.style.opacity = 0;
+        setTimeout(() => {
+          overlay.style.display = 'none';
+          content.classList.add('show-content');
+        }, 1000);
+      }, 500);
+    });
+  </script>
 </body>
 </html>
